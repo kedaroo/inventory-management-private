@@ -1,50 +1,47 @@
-# React + TypeScript + Vite
+# Frontend Inventory Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+Welcome to the Frontend Inventory Management App! This application allows users to manage product inventory dynamically. Users can switch between user and admin roles to view or modify inventory items and their statistics. The application is built using modern web technologies and a clean design with Tailwind CSS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Role-Based Access**: 
+  - Users can toggle between user and admin roles. 
+  - Admins can perform all actions, while users can only view data.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Dynamic Inventory Statistics**: 
+  - Inventory stats update automatically based on product data changes.
+  - Stats include total number of products, total store value, out-of-stock products, and number of categories.
 
-- Configure the top-level `parserOptions` property like this:
+- **Product Management**: 
+  - Edit product details (category, value, quantity, and price).
+  - Disable products to exclude them from inventory stats.
+  - Delete products from the inventory.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Technologies Used
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- **Frontend**: 
+  - React
+  - TypeScript
+  - Tailwind CSS
+  - Ant Design (component library)
+  - Zustand (for global state management)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Usage
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. Clone the repository
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the application:
+   ```bash
+   npm run dev
+   ```
+
+## Contributing
+
+Contributions are welcome! Please feel free to open issues or submit pull requests.
