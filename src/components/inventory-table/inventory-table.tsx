@@ -3,8 +3,13 @@ import {
   deleteInventoryItem,
   toggleInventoryItemDisable,
 } from "../../utils/inventory";
+import { useState } from "react";
+import EditItemModal from "../edit-item-modal/edit-item-modal";
+import { TInventoryItem } from "../../types/inventory";
 
 export default function InventoryTable() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<null | TInventoryItem>(null);
   const inventory = useInventoryStore((state) => state.inventory);
   const updateInventory = useInventoryStore((state) => state.updateInventory);
 
@@ -18,38 +23,56 @@ export default function InventoryTable() {
     updateInventory(newInventory);
   };
 
-  // const handleOnDelete = () => {}
+  const handleEdit = (item: TInventoryItem) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
-    <table border={1} cellPadding={10} cellSpacing={0}>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Value ($)</th>
-          <th>Quantity</th>
-          <th>Price ($)</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {inventory.map((item, index) => (
-          <tr key={index}>
-            <td>{item.name}</td>
-            <td>{item.category}</td>
-            <td>{item.value}</td>
-            <td>{item.quantity}</td>
-            <td>{item.price}</td>
-            <td>
-              <button>Edit</button>
-              <button onClick={() => handleDelete(item.id)}>Delete</button>
-              <button onClick={() => handleDisable(item.id)}>
-                {item.disabled ? "Enable" : "Disable"}
-              </button>
-            </td>
+    <>
+      <table border={1} cellPadding={10} cellSpacing={0}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Value ($)</th>
+            <th>Quantity</th>
+            <th>Price ($)</th>
+            <th>Action</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {inventory.map((item, index) => (
+            <tr key={index}>
+              <td>{item.name}</td>
+              <td>{item.category}</td>
+              <td>{item.value}</td>
+              <td>{item.quantity}</td>
+              <td>{item.price}</td>
+              <td>
+                <button onClick={() => handleEdit(item)}>Edit</button>
+                <button onClick={() => handleDelete(item.id)}>Delete</button>
+                <button onClick={() => handleDisable(item.id)}>
+                  {item.disabled ? "Enable" : "Disable"}
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {selectedItem && (
+        <EditItemModal
+          closeModal={closeModal}
+          open={isModalOpen}
+          item={selectedItem}
+          afterClose={() => setSelectedItem(null)}
+        />
+      )}
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import { TInventoryItem } from "../types/inventory";
 
-const parseCurrency = (currency: string): number => {
+export const parseCurrency = (currency: string): number => {
   return parseFloat(currency.replace(/[$,]/g, ""));
 };
 
@@ -22,7 +22,8 @@ export const calculateInventoryStats = (inventory: TInventoryItem[]) => {
   ).length;
 
   // calculating unique product categories
-  const numOfCategories = new Set(activeInventory.map((item) => item.category)).size;
+  const numOfCategories = new Set(activeInventory.map((item) => item.category))
+    .size;
 
   return {
     totalProducts,
@@ -45,6 +46,17 @@ export const toggleInventoryItemDisable = (
 ): TInventoryItem[] => {
   return inventory.map((item) => {
     if (item.id === itemId) return { ...item, disabled: !item.disabled };
+
+    return item;
+  });
+};
+
+export const editInventoryItem = (
+  inventory: TInventoryItem[],
+  updatedItem: TInventoryItem
+): TInventoryItem[] => {
+  return inventory.map((item) => {
+    if (item.id === updatedItem.id) return updatedItem;
 
     return item;
   });
