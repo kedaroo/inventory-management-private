@@ -1,16 +1,23 @@
 import { useInventoryStore } from "../../stores/inventory-store";
-import { deleteInventoryItem } from "../../utils/inventory";
+import {
+  deleteInventoryItem,
+  toggleInventoryItemDisable,
+} from "../../utils/inventory";
 
 export default function InventoryTable() {
   const inventory = useInventoryStore((state) => state.inventory);
   const updateInventory = useInventoryStore((state) => state.updateInventory);
 
   const handleDelete = (itemId: string) => {
-    const newInventory = deleteInventoryItem(inventory, itemId)
-    updateInventory(newInventory)
-  }
+    const newInventory = deleteInventoryItem(inventory, itemId);
+    updateInventory(newInventory);
+  };
 
-  // const handleOnDisable = () => {}
+  const handleDisable = (itemId: string) => {
+    const newInventory = toggleInventoryItemDisable(inventory, itemId);
+    updateInventory(newInventory);
+  };
+
   // const handleOnDelete = () => {}
 
   return (
@@ -36,7 +43,9 @@ export default function InventoryTable() {
             <td>
               <button>Edit</button>
               <button onClick={() => handleDelete(item.id)}>Delete</button>
-              <button>Disable</button>
+              <button onClick={() => handleDisable(item.id)}>
+                {item.disabled ? "Enable" : "Disable"}
+              </button>
             </td>
           </tr>
         ))}

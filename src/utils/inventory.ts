@@ -5,21 +5,24 @@ const parseCurrency = (currency: string): number => {
 };
 
 export const calculateInventoryStats = (inventory: TInventoryItem[]) => {
-  const totalProducts = inventory.length;
+  // filter out disabled items
+  const activeInventory = inventory.filter((item) => !item.disabled);
+
+  const totalProducts = activeInventory.length;
 
   // calculating total store value
-  const totalStoreValue = inventory.reduce((acc, item) => {
+  const totalStoreValue = activeInventory.reduce((acc, item) => {
     const numericValue = parseCurrency(item.value);
     return acc + numericValue * item.quantity;
   }, 0);
 
   // calculating out of stock products
-  const outOfStockProducts = inventory.filter(
+  const outOfStockProducts = activeInventory.filter(
     (item) => item.quantity === 0
   ).length;
 
   // calculating unique product categories
-  const numOfCategories = new Set(inventory.map((item) => item.category)).size;
+  const numOfCategories = new Set(activeInventory.map((item) => item.category)).size;
 
   return {
     totalProducts,
@@ -34,4 +37,15 @@ export const deleteInventoryItem = (
   itemId: string
 ): TInventoryItem[] => {
   return inventory.filter((item) => item.id !== itemId);
+};
+
+export const toggleInventoryItemDisable = (
+  inventory: TInventoryItem[],
+  itemId: string
+): TInventoryItem[] => {
+  return inventory.map((item) => {
+    if (item.id === itemId) return { ...item, disabled: !item.disabled };
+
+    return item;
+  });
 };
