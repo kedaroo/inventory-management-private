@@ -5,3 +5,10 @@ export type TInventoryItem = {
   quantity: number;
   price: string;
 };
+
+export type TInventoryStats = {
+  totalProducts: number;
+  totalStoreValue: number;
+  outOfStockProducts: number;
+  numOfCategories: number;
+};
