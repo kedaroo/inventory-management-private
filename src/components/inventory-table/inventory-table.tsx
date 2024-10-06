@@ -56,7 +56,10 @@ export default function InventoryTable() {
         </thead>
         <tbody>
           {inventory.map((item, index) => (
-            <tr key={index} className="border-b">
+            <tr key={index} className={`
+              border-b 
+              ${item.disabled ? 'text-gray-400' : ''}
+            `}>
               <td>{item.name}</td>
               <td>{item.category}</td>
               <td>{item.value}</td>
