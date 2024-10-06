@@ -3,6 +3,7 @@ import { useInventoryStore } from "./stores/inventory-store";
 import InventoryStats from "./components/inventory-stats/inventory-stats";
 import InventoryTable from "./components/inventory-table/inventory-table";
 import "./App.css";
+import Header from "./components/header/header";
 
 function App() {
   const fetchInventory = useInventoryStore((state) => state.fetchInventory);
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <>
+    <Header />
       <InventoryStats />
       <InventoryTable />
     </>
