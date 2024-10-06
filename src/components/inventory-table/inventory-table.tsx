@@ -6,12 +6,14 @@ import {
 import { useState } from "react";
 import EditItemModal from "../edit-item-modal/edit-item-modal";
 import { TInventoryItem } from "../../types/inventory";
+import { usePermissionStore } from "../../stores/permission-store";
 
 export default function InventoryTable() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<null | TInventoryItem>(null);
   const inventory = useInventoryStore((state) => state.inventory);
   const updateInventory = useInventoryStore((state) => state.updateInventory);
+  const role = usePermissionStore(state => state.role);
 
   const handleDelete = (itemId: string) => {
     const newInventory = deleteInventoryItem(inventory, itemId);
@@ -54,9 +56,9 @@ export default function InventoryTable() {
               <td>{item.quantity}</td>
               <td>{item.price}</td>
               <td>
-                <button onClick={() => handleEdit(item)}>Edit</button>
-                <button onClick={() => handleDelete(item.id)}>Delete</button>
-                <button onClick={() => handleDisable(item.id)}>
+                <button disabled={role === 'user' || item.disabled} onClick={() => handleEdit(item)}>Edit</button>
+                <button disabled={role === 'user'} onClick={() => handleDelete(item.id)}>Delete</button>
+                <button disabled={role === 'user'} onClick={() => handleDisable(item.id)}>
                   {item.disabled ? "Enable" : "Disable"}
                 </button>
               </td>
