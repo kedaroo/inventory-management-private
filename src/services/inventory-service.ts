@@ -1,4 +1,4 @@
-import { TInventoryItem } from "../types/inventory";
+import { TRawInventoryItem } from "../types/inventory";
 
 const INVENTORY_ENDPOINT =
   "https://dev-0tf0hinghgjl39z.api.raw-labs.com/inventory";
@@ -7,7 +7,7 @@ const RESPONSE_STATUS = {
   tooManyRequests: 429,
 };
 
-const MOCK_INVENTORY: TInventoryItem[] = [
+const MOCK_INVENTORY: TRawInventoryItem[] = [
   {
     name: "Bluetooth",
     category: "Electronic",
@@ -46,6 +46,8 @@ const MOCK_INVENTORY: TInventoryItem[] = [
 ];
 
 export const getInventory = async () => {
+  let inventory = MOCK_INVENTORY;
+
   try {
     const res = await fetch(INVENTORY_ENDPOINT, {
       headers: {
@@ -59,8 +61,22 @@ export const getInventory = async () => {
 
     const json = await res.json();
 
-    return json;
-  } catch {
-    return MOCK_INVENTORY;
+    inventory = json;
+  } catch (e) {
+    console.log(e);
   }
+
+  return processRawInventory(inventory);
+};
+
+const processRawInventory = (inventory: TRawInventoryItem[]) => {
+  return inventory.map((item) => ({
+    ...item,
+    disabled: false,
+    id: calculateInventoryItemId(item.name),
+  }));
+};
+
+const calculateInventoryItemId = (itemName: string) => {
+  return itemName.toLowerCase().split(" ").join("-");
 };
