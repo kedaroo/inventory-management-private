@@ -4,8 +4,6 @@ import { getInventory } from "../services/inventory-service";
 import { calculateInventoryStats } from "../utils/inventory";
 
 type InventoryStore = {
-  count: number;
-  inc: () => void;
   inventory: TInventoryItem[];
   inventoryStats: TInventoryStats;
   fetchInventory: () => Promise<void>;
@@ -20,10 +18,8 @@ const initialInventoryStats: TInventoryStats = {
 };
 
 export const useInventoryStore = create<InventoryStore>()((set) => ({
-  count: 1,
   inventory: [],
   inventoryStats: initialInventoryStats,
-  inc: () => set((state) => ({ count: state.count + 1 })),
   fetchInventory: async () => {
     const inventory = await getInventory();
     const inventoryStats = calculateInventoryStats(inventory);
