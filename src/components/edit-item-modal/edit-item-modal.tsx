@@ -41,35 +41,48 @@ export default function EditItemModal(props: IEditItemModalProps) {
       onCancel={props.closeModal}
       afterClose={props.afterClose}
     >
-      <label>
-        Catogory
-        <Input value={category} onChange={(e) => setCategory(e.target.value)} />
-      </label>
+      <div className="font-bold mb-2">{props.item.name}</div>
+      <div className="grid grid-cols-2 gap-4">
+        <label className="flex flex-col">
+          Category
+          <Input
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
+        </label>
 
-      <label>
-        Price
-        <InputNumber
-          value={price}
-          min={0}
-          onChange={(e) => setPrice(e || 0)}
-          prefix="$"
-        />
-      </label>
+        <label className="flex flex-col">
+          Price
+          <InputNumber
+            value={price}
+            min={0}
+            onChange={(e) => setPrice(e || 0)}
+            prefix="$"
+            className="w-full"
+          />
+        </label>
 
-      <label>
-        Quantity
-        <InputNumber value={quantity} min={0} onChange={(e) => setQuanity(e || 0)} />
-      </label>
+        <label className="flex flex-col">
+          Quantity
+          <InputNumber
+            className="w-full"
+            value={quantity}
+            min={0}
+            onChange={(e) => setQuanity(e || 0)}
+          />
+        </label>
 
-      <label>
-        Value
-        <InputNumber
-          value={value}
-          min={0}
-          onChange={(e) => setValue(e || 0)}
-          prefix="$"
-        />
-      </label>
+        <label className="flex flex-col">
+          Value
+          <InputNumber
+            className="w-full"
+            value={value}
+            min={0}
+            onChange={(e) => setValue(e || 0)}
+            prefix="$"
+          />
+        </label>
+      </div>
     </Modal>
   );
 }

@@ -4,12 +4,13 @@ import OutOfStock from "../../assets/out-of-stock.svg";
 import Dollar from "../../assets/dollar.svg";
 import Shapes from "../../assets/shapes.svg";
 import StatCard from "./stat-card";
+import { formatNumber } from "../../utils/inventory";
 
 export default function InventoryStats() {
   const inventoryStats = useInventoryStore((state) => state.inventoryStats);
 
   return (
-    <div className="flex flex-col gap-4 my-4">
+    <div className="flex flex-col gap-4 mb-6">
       <h2 className="text-2xl font-semibold">Inventory Stats</h2>
 
       <div className="flex items-center gap-4">
@@ -18,11 +19,10 @@ export default function InventoryStats() {
           title="Total product"
           value={inventoryStats.totalProducts}
         />
-        {/* TODO: add comma in the formatting use internationalization lib */}
         <StatCard
           icon={<img src={Dollar} alt="dollar icon" className="w-6" />}
           title="Total store value"
-          value={inventoryStats.totalStoreValue}
+          value={formatNumber(inventoryStats.totalStoreValue)}
         />
         <StatCard
           icon={<img src={OutOfStock} alt="out of stock" className="w-6" />}
