@@ -13,7 +13,7 @@ export default function InventoryStats() {
     <div className="flex flex-col gap-4 mb-6">
       <h2 className="text-2xl font-semibold">Inventory Stats</h2>
 
-      <div className="flex items-center gap-4">
+      <div className="flex  gap-4">
         <StatCard
           icon={<img src={ShoppingCard} alt="shopping cart" className="w-6" />}
           title="Total product"

@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <Header />
-      <div className="container p-4">
+      <div className=" p-4">
         <InventoryStats />
         <InventoryTable />
       </div>
