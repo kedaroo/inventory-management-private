@@ -1,5 +1,11 @@
 import { useInventoryStore } from "../../stores/inventory-store";
 import {
+  EditOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
+import {
   deleteInventoryItem,
   toggleInventoryItemDisable,
 } from "../../utils/inventory";
@@ -7,13 +13,14 @@ import { useState } from "react";
 import EditItemModal from "../edit-item-modal/edit-item-modal";
 import { TInventoryItem } from "../../types/inventory";
 import { usePermissionStore } from "../../stores/permission-store";
+import { Button } from "antd";
 
 export default function InventoryTable() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<null | TInventoryItem>(null);
   const inventory = useInventoryStore((state) => state.inventory);
   const updateInventory = useInventoryStore((state) => state.updateInventory);
-  const role = usePermissionStore(state => state.role);
+  const role = usePermissionStore((state) => state.role);
 
   const handleDelete = (itemId: string) => {
     const newInventory = deleteInventoryItem(inventory, itemId);
@@ -36,9 +43,9 @@ export default function InventoryTable() {
 
   return (
     <>
-      <table border={1} cellPadding={10} cellSpacing={0}>
+      <table className="border table-auto min-w-full" cellPadding={10}>
         <thead>
-          <tr>
+          <tr className="*:text-left border-b">
             <th>Name</th>
             <th>Category</th>
             <th>Value ($)</th>
@@ -49,18 +56,41 @@ export default function InventoryTable() {
         </thead>
         <tbody>
           {inventory.map((item, index) => (
-            <tr key={index}>
+            <tr key={index} className="border-b">
               <td>{item.name}</td>
               <td>{item.category}</td>
               <td>{item.value}</td>
               <td>{item.quantity}</td>
               <td>{item.price}</td>
-              <td>
-                <button disabled={role === 'user' || item.disabled} onClick={() => handleEdit(item)}>Edit</button>
-                <button disabled={role === 'user'} onClick={() => handleDelete(item.id)}>Delete</button>
-                <button disabled={role === 'user'} onClick={() => handleDisable(item.id)}>
-                  {item.disabled ? "Enable" : "Disable"}
-                </button>
+              <td className="flex gap-2">
+                <Button
+                  disabled={role === "user" || item.disabled}
+                  type="primary"
+                  shape="circle"
+                  className="bg-green-500"
+                  icon={<EditOutlined />}
+                  onClick={() => handleEdit(item)}
+                />
+
+                <Button
+                  disabled={role === "user"}
+                  type="primary"
+                  shape="circle"
+                  className="bg-purple-500"
+                  icon={
+                    item.disabled ? <EyeInvisibleOutlined /> : <EyeOutlined />
+                  }
+                  onClick={() => handleDisable(item.id)}
+                />
+
+                <Button
+                  disabled={role === "user"}
+                  type="primary"
+                  shape="circle"
+                  className="bg-red-500"
+                  icon={<DeleteOutlined />}
+                  onClick={() => handleDelete(item.id)}
+                />
               </td>
             </tr>
           ))}
