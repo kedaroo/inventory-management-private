@@ -10,10 +10,14 @@ export default function Header() {
   };
 
   return (
-    <header>
-      User
+    <header className="border-b p-2 flex items-center gap-2 justify-end">
+      <div>
+        User
+      </div>
       <Switch value={role === "admin"} onChange={handleChange} />
-      Admin
+      <div>
+        Admin
+      </div>
     </header>
   );
 }
