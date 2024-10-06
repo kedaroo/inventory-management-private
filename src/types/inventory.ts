@@ -1,9 +1,14 @@
-export type TInventoryItem = {
+export type TRawInventoryItem = {
   name: string;
   category: string;
   value: string;
   quantity: number;
   price: string;
+};
+
+export type TInventoryItem = TRawInventoryItem & {
+  id: string;
+  disabled: boolean;
 };
 
 export type TInventoryStats = {

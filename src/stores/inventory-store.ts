@@ -9,6 +9,7 @@ type InventoryStore = {
   inventory: TInventoryItem[];
   inventoryStats: TInventoryStats;
   fetchInventory: () => Promise<void>;
+  updateInventory: (newInventory: TInventoryItem[]) => void;
 };
 
 const initialInventoryStats: TInventoryStats = {
@@ -27,5 +28,9 @@ export const useInventoryStore = create<InventoryStore>()((set) => ({
     const inventory = await getInventory();
     const inventoryStats = calculateInventoryStats(inventory);
     set({ inventory, inventoryStats });
+  },
+  updateInventory: (newInventory) => {
+    const inventoryStats = calculateInventoryStats(newInventory);
+    set({ inventory: newInventory, inventoryStats });
   },
 }));
